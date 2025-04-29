@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<style>
+ body {
+ margin: 0;
+ font-family: Arial, sans-serif;
+ background-color: white;
+}
+
+ 
+ header {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 15px 0px;
+ background-color: white; /* Exemplo de cor de fundo */
+ position: fixed;
+ top: 0;
+ left: 40;
+ width: 100%;
+ z-index: 1000; /* Para garantir que o cabeçalho fique acima de outros elementos */
+ box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para destacar o cabeçalho */
+ border-bottom: 1px solid #ccc;
+  
+}
+ 
+ #meuBotao {
+ padding: 10px 10px;
+ background-color: 
+ color: #4CAF50;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+ font-size: 15px;
+ font-weight: bold;
+ margin-right: 20px;
+ }
+
+#meuBotao:hover {
+  background-color: none; /* Cor ao passar o mouse */
+}
+
+.logo {
+ font-size: 28px;
+ font-weight: bolder;
+ align-items: center;
+ margin-left: 10px;
+ color: #555;
+
+}
+        
+  .logo::first-letter {
+ font-size: 35px; /* tamanho da letra L */
+ font-weight: bold;
+ color: purple;
+ align-items: center;
+ margin-left: 11px;
+}
+ 
+ .container {
+ max-width: 1200px;
+ margin: 0 auto;
+ padding: 0px;
+ height: 540px;
+ background: #4CAF50;
+ margin-bottom: 40px;
+ margin-top: 0px;
+
+}
+
+ 
+
+ .title {
+ font-size: 35px;
+ font-weight: bolder;
+ margin-bottom: 20px;
+ top: 100px;
+ position: relative;
+ text-align: center;
+ margin-bottom: 50px;
+ margin-left: 10px;
+ margin-right: 10px;
+ color: white;
+
+}
+
+ .sub {
+ margin-top: 140px;
+ font-size: 18px;
+ text-align: center;
+ color: #ccc;
+ margin-left: 30px;
+ margin-right: 30px;
+ line-height: 1.6;
+
+}
+
+ 
+
+
+ .text {
+ font-size: 30px;
+ font-weight: bolder;
+ margin-bottom: 0px;
+ margin-top: 40px;
+ text-align: center;
+ margin-left: 30px;
+ margin-right: 30px;
+ color: #555;
+
+}
+
+ .text::first-letter {
+ font-size: 28px; /* tamanho da letra L */
+ font-weight: bold;
+ color: #4CAF50;
+ align-items: center;
+ margin-left: 11px;
+
+}
+
+ .card {
+ border: 1px solid #ccc;
+ padding: 20px;
+ border-radius: 10px;
+ background: none;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+ margin-top: 20px;
+ margin-left: 35px;
+ margin-right: 40px;
+ max-width: 100%;
+
+}
+
+ .name {
+ margin-top: 10px;
+ font-size: 17px;
+ font-weight: bolder;
+ text-align: center;
+ color: #4CAF50;
+
+}
+
+ .descri {
+ margin-top: 10px;
+ font-size: 16px;
+ text-align: center;
+ text-align: center;
+ margin-left: 20px;
+ margin-right: 20px;
+ line-height: 1.6;
+
+}
+
+ .icon {
+ opacity: 0;
+ transform: translateX(-50px); /* Move 50px para a esquerda inicialmente */
+ transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+ border: 1px solid none;
+ padding: 20px;
+ border-radius: none;
+ background: white;
+ margin-top: 20px;
+ margin-left: 40px;
+ margin-right: 40px;
+ max-width: 100%;
+
+}
+
+ .icon.show {
+ opacity: 1;
+ transform: translateX(0); /* Volta à posição original */
+}
+
+
+.ops {
+margin-top: 0px;
+font-size: 17px;
+font-weight: bold;
+color: purple;
+
+}
+
+.list {
+margin-top: 15px;
+font-size: 16px;
+font-weight: none;
+color: black;
+line-height: 1.6;
+
+}
+
+
+ .motivos {
+ background: white;
+ height: 400px;
+
+}
+
+ .vertical-line {
+ position: relative;
+ list-style: none;
+ padding: 0;
+ margin-left: 10px;
+
+}
+
+.vertical-line li {
+ padding: 5px 0px 0px 10px; 
+ margin-bottom: 15px;
+ border-left: 2px solid #4CAF50;
+ position: relative;
+
+}
+ 
+ ul {
+ list-style: none; 
+ padding: 0;
+ margin-top: 40px;
+ margin-left: 10px;
+ 
+ }
+    
+ li {
+ margin-bottom: 0px; 
+
+}
+  
+ .opcao {
+ font-size: 17px;
+ display: inline-block;
+ font-weight: bolder;
+ color: #4CAF50;
+ margin-left: 5px;
+ margin-top: 0px;
+ }
+  
+ .descricao {
+ font-size: 15px;
+ font-weight: none;
+ color: black;
+ text-align: absolute;  
+ margin-left: 5px;
+ margin-right: 0px;    
+ margin-top: 10px;  
+ margin-bottom: 25px;
+ line-height: 1.6;
+
+}
+
+ .painel {
+ font-size: 25px;
+ font-weight: bold;
+ color: #555;
+ text-align: center;  
+ margin-left: 20px;
+ margin-right: 0px;    
+ margin-top: 50px;  
+ margin-bottom: 0px;
+ line-height: 1.6;
+}
+
+ hr {
+ border: 1px solid #ccc;
+ margin-left: 50px;
+ margin-right: 15%;
+
+}
+
+ .line {
+ border: 1.50px solid #4CAF50;
+ margin-left: 0px;
+ margin-right: 0px;
+ margin-top: 20px;
+
+}
+
+ footer {
+ background-color: #333;
+ padding: 20px;
+ text-align: center;
+ color: #fff; 
+ margin-top: 80px;
+}
+
+ footer .brand p {
+ margin-top: 20px;
+ font-size: 14px;
+}
+
+ footer a {
+ color: #fff;
+ text-decoration: none;
+ font-weight: bold;
+ transition: color 0.3s ease;
+ 
+}
+
+ footer a:hover {
+ color: #f0c040; 
+}
+
+ footer a:visited {
+ color: #ccc; 
+}
+
+ .entrar {
+ font-size: 16px;
+ font-weight: none;
+ color: #f2f2f2;
+ text-align: center;  
+ font-weight: bold;
+ 
+}
+ 
+ .botão {
+  background: #4CAF50;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 50px;
+  padding: 15px 0px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid #f2f2f2;
+  border-radius: 10px;
+ }
+ 
+ 
+</style>
+
+ <header>
+ <div class="logo">Lopixe</div>
+ <button id="meuBotao">Criar conta</button>
+ </header>
+
+
+ <div class="container">
+ <div class="title">Crie seu catálogo digital</div>
+ <div class="sub">Chega de perder tempo, temos a solução completa que vai ti ajudar a criar seu catálogo de produtos da sua loja, de forma rápido e fácil.</div>
+ <div class= "botão" onclick="redirecionar('login.html')">
+ <div class="entrar">Entrar</div>
+ </div>
+  
+ </div>
+ </div>
+
+ <div class="text">Veja o que você pode fazer com nossa plataforma?</div>
+ </div>
+
+ <div class="card">
+ <div class="name">Adicione produtos</div>
+ <div class="descri">Adicione produtos de forma ilimitada com facilidade e em qualquer lugar que estiver.</div>
+ </div>
+ 
+ <div class="card">
+ <div class="name">Edite</div>
+ <div class="descri">Com apenas um click, 
+ você edita os produtos a qualquer momento com mais rapidez.</div>
+ </div>
+
+
+<div class="text">Faça mais com facilidade.</div>
+ </div>
+
+ <div class="icon">
+ <div class="liste">
+ <div class="ops">Adicione imagens</div>
+ </div>
+ <div class="list">Você não precisa contar a guantidade de compras,
+ nosso contador de mercadoria faz isso pra você de forma automática.</div>
+ <div class="line"></div>
+ </div>
+
+ <div class="icon">
+ <div class="liste">
+ <div class="ops">Adicione cores</div>
+ </div>
+ <div class="list">Chega de quebrar a cabeça na hora de calcular o valor total de suas compras,
+  nosso sistema calcula o valor de cada alimento e produtos dicionado por você. tudo de forma automática.</div>
+ <div class="line"></div>
+ </div>
+
+ <div class="painel">Porquê usar a lopixe?</div>
+ </div>
+
+ <div class="motivos">
+ <ul class="vertical-line">
+  <li>
+    <div class="opcao">Mais rápido</div>
+    <div class="descricao">Tenha mais rapidez na hora de fazer a lista de alimentos e produtos que vai comprar.</div>
+  </li>
+  <li>
+    <div class="opcao">Mais fácilidade</div>
+    <div class="descricao">Nossa plataforma tem uma interface bastante amigável, facilitando na organização das suas compras.</div>
+  </li>
+  <li>
+    <div class="opcao">Menos tempo</div>
+    <div class="descricao">Seu tempo é valioso, então economize tempo com nossa plataforma.</div>
+  </li>
+  
+  </ul>
+  </div>
+
+
+ <div class="painel">Painel Organizado</div>
+ </div>
+ <div class="descri">Nossa plataforma tem uma interface bastante amigável, facilitando na organização das suas compras.</div>
+ <hr>
+ </div>
+ </div>
+
+
+<footer>
+ <div class="brand">
+ <p><a href="privacidade.html" target="_blank">Política de Privacidade</a> | 
+ <a href="quem-somos.html" target="_blank">Quem Somos?</a></p>
+ <p>&copy; 2024° - Lopixe / todos os direitos reservados.</p>
+ </div>
+ </footer>
+
+
+<script src="seuScript.js"></script>
+
+<script>
+    function redirecionar(url) {
+        window.location.href = url;
+    }
+</script>
+
+
+<script>
+document.getElementById("meuBotao").addEventListener("click", function() {
+    window.location.href = "cadastro.html";
+});
+</script>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const icons = document.querySelectorAll('.icon');
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        observer.unobserve(entry.target); // para que a animação ocorra apenas uma vez
+      }
+    });
+  }, {
+    threshold: 0.5 // ativa a animação quando 10% do card estiver visível
+  });
+
+  icons.forEach(icon => {
+    observer.observe(icon);
+  });
+});
+
+</script>
+
+
+
+
+ 

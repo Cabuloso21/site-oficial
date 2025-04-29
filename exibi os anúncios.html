@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anúncios 1</title>
+</head>
+<body>
+  
+  <style>
+   
+      
+body {
+ margin: 0px;
+font-family: Roboto, sans-serif;
+}
+ 
+header {
+  background: #4CAF50;
+  padding: 17px;
+ border-bottom: 1px solid #ccc;
+ }
+
+.logo {
+    text-align: absolute;
+    color: #f2f2f2;
+    font-size: 25px;
+    font-weight: bold;
+ margin-left: 0px;
+}
+
+   
+.menu {
+ width: 97.1%;
+ background: white;
+ overflow-x: scroll;
+ border-bottom: 1px solid #ccc;
+ padding: 5px;
+}
+
+ ul {
+ list-style: none;
+ margin: 0;
+ padding: 0;
+ display: flex;
+
+}
+
+
+ li {
+ margin: 0px;
+
+}
+
+ a {
+ display: flex;
+ color: black;
+ text-decoration: none;
+ padding: 10px;
+ font-weight: bold;
+font-size: 15px;
+}
+
+ a:hover {
+ background-color: #d1ab00;
+ color: #74bb17;
+ 
+} 
+
+
+    .titulo {
+    text-align: center;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+margin-bottom: 20px;
+margin-top: 35px;
+
+}
+
+
+ 
+    
+
+
+.anuncio {
+      background: #f0f0f0;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: background 0.3s;
+   margin-left: 20px;
+  margin-right: 20px;
+ }
+    .anuncio:hover {
+      background: #f0f0f0;
+    }
+    .anuncio h3 {
+      margin-top: 0;
+     color: orange;
+
+ }
+    .anuncio a {
+      color: #25D366;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  
+
+footer {
+ background: #999;
+ padding: 5px;
+ text-align: center;
+ color: #fff; 
+ margin-top: 63%;
+}
+
+ footer .brand p {
+ margin-top: 20px;
+ font-size: 14px;
+  color: lime;
+}
+
+ footer a {
+ color: lime;
+ text-decoration: none;
+ font-weight: bold;
+ transition: color 0.3s ease;
+ 
+}
+
+ footer a:hover {
+ color: #f0c040; 
+}
+
+ footer a:visited {
+ color: #ccc; 
+}
+
+
+
+</style>
+</head>
+<body>
+  
+<header>
+ <div class="logo">Lopixe</div>
+ </header>
+
+
+<div class="menu">
+  <ul>
+    <li><a href="dados.html">Meus dados</a></li>
+    <li><a href="moveis.html">Editar</a></li>
+    <li><a href="todos-os-anuncios.html"> usuários</a></li>
+    <li><a href="carros.html">Carros</a></li>
+    <li><a href="sofa.html">Sofá</a></li>
+  </ul>
+</div>
+
+
+
+
+ <div class="titulo">Meus clientes</div>
+  </div>
+</div>
+ </div>
+  
+  <div id="lista-anuncios">Carregando clientes...</div>
+
+</div>
+
+ <footer>
+ <div class="brand">
+ <p>&copy; 2024° - Lopixe / todos os direitos reservados.</p>
+ </div>
+ </footer>
+
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCqkWODpY54YGrvqPVMABK_k_ZJLo1KXMA",
+      authDomain: "teste-cfe69.firebaseapp.com",
+      projectId: "teste-cfe69",
+      storageBucket: "teste-cfe69.appspot.com",
+      messagingSenderId: "646579509123",
+      appId: "1:646579509123:web:dd23b863dd8c54bca308b6",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore();
+
+    const lista = document.getElementById("lista-anuncios");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const q = query(collection(db, "anuncios"), where("uid", "==", user.uid));
+          const querySnapshot = await getDocs(q);
+
+          if (querySnapshot.empty) {
+            lista.textContent = "Você ainda não publicou nenhum anúncio.";
+          } else {
+            lista.innerHTML = "";
+            querySnapshot.forEach(doc => {
+              const dados = doc.data();
+
+              const numeroLimpo = dados.whatsapp.replace(/\D/g, '');
+              const linkWhatsapp = `https://wa.me/${numeroLimpo}`;
+
+              const div = document.createElement("div");
+              div.classList.add("anuncio");
+              div.innerHTML = `
+                <h3>${dados.produto}</h3>
+                <p><strong>Preço:</strong> R$ ${dados.preco}</p>
+                <p><strong>Localização:</strong> ${dados.localizacao}</p>
+              `;
+
+              // Quando clicar no anúncio, salvar dados no localStorage e redirecionar
+              div.addEventListener('click', () => {
+                localStorage.setItem('anuncioSelecionado', JSON.stringify({
+                  produto: dados.produto,
+                  preco: dados.preco,
+                  whatsapp: linkWhatsapp,
+                  localizacao: dados.localizacao,
+                  descricao: dados.descricao
+                }));
+                window.location.href = "detalhes do anúncio sem ID.html";
+              });
+
+              lista.appendChild(div);
+            });
+          }
+        } catch (error) {
+          lista.textContent = "Erro ao carregar anúncios.";
+          console.error(error);
+        }
+      } else {
+        window.location.href = "login.html";
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
+</body>
+</html>

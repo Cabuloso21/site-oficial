@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>resumo do anúncio</title>
+</head>
+<body>
+
+ <style>
+ body {
+ font-family: Roboto, sans-serif;  
+ margin: 0px;
+   
+}
+  
+header {
+padding: 15px;
+background: #4CAF50;
+margin-bottom: 50px;
+border-bottom: 1px solid #999;
+}
+
+.text {
+color: #f2f2f2;
+font-size: 20px;
+font-weight: bold;
+text-align: center;
+}
+
+  
+.anuncio {
+ border: 1px solid #ccc;
+ padding: 15px;
+ margin-bottom: 10px;
+ border-radius: 8px;
+ margin-left: 20px;  
+ margin-right: 20px;
+
+}
+
+ input, textarea {
+ display: block;
+ margin: 5px 0;
+ width: 92%;
+ padding: 10px;
+   
+}
+    
+ button {
+ margin-right: 10px;
+ padding: 6px 12px;
+ background: white; 
+ border: 1px solid #f2f2f2;
+ border-radius: 10px;
+ font-weight: bold;
+ margin-top: 30px;
+ margin-left: 50px;
+ margin-right: 10px;
+ text-align: center;
+ color: #4CAF50;
+}
+  
+</style>
+</head>
+<body>
+  
+ <header>
+ <div class="text">Editar clientes</div>
+ </header>
+
+ <div id="lista-anuncios"></div>
+
+
+ <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCqkWODpY54YGrvqPVMABK_k_ZJLo1KXMA",
+      authDomain: "teste-cfe69.firebaseapp.com",
+      projectId: "teste-cfe69",
+      storageBucket: "teste-cfe69.appspot.com",
+      messagingSenderId: "646579509123",
+      appId: "1:646579509123:web:dd23b863dd8c54bca308b6",
+    };
+  
+
+  const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    const lista = document.getElementById("lista-anuncios");
+
+    onAuthStateChanged(auth, async user => {
+      if (user) {
+        const q = query(collection(db, "anuncios"), where("uid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach(docSnap => {
+          const dados = docSnap.data();
+          const id = docSnap.id;
+
+          const div = document.createElement("div");
+          div.classList.add("anuncio");
+
+          const titulo = criarInput(dados.produto);
+          const preco = criarInput(dados.preco);
+          const whatsapp = criarInput(dados.whatsapp);
+          const localizacao = criarInput(dados.localizacao);
+          const descricao = criarTextarea(dados.descricao);
+
+          // Desativa os campos inicialmente
+          [titulo, preco, whatsapp, localizacao, descricao].forEach(el => el.disabled = true);
+
+          const btnEditar = document.createElement("button");
+          btnEditar.textContent = "Editar";
+
+          const btnSalvar = document.createElement("button");
+          btnSalvar.textContent = "Salvar";
+          btnSalvar.style.display = "none";
+
+          btnEditar.onclick = () => {
+            [titulo, preco, whatsapp, localizacao, descricao].forEach(el => el.disabled = false);
+            btnEditar.style.display = "none";
+            btnSalvar.style.display = "inline-block";
+          };
+
+          btnSalvar.onclick = async () => {
+            try {
+              await updateDoc(doc(db, "anuncios", id), {
+                produto: titulo.value,
+                preco: preco.value,
+                whatsapp: whatsapp.value,
+                localizacao: localizacao.value,
+                descricao: descricao.value
+              });
+              alert("Anúncio atualizado!");
+              [titulo, preco, whatsapp, localizacao, descricao].forEach(el => el.disabled = true);
+              btnEditar.style.display = "inline-block";
+              btnSalvar.style.display = "none";
+            } catch (err) {
+              console.error("Erro ao atualizar:", err);
+              alert("Erro ao atualizar anúncio.");
+            }
+          };
+
+          const btnExcluir = document.createElement("button");
+          btnExcluir.textContent = "Excluir";
+          btnExcluir.onclick = async () => {
+            if (confirm("Tem certeza que deseja excluir este anúncio?")) {
+              try {
+                await deleteDoc(doc(db, "anuncios", id));
+                div.remove();
+                alert("Anúncio excluído com sucesso!");
+              } catch (err) {
+                console.error("Erro ao excluir:", err);
+                alert("Erro ao excluir anúncio.");
+              }
+            }
+          };
+
+          div.append(
+            titulo,
+            preco,
+            whatsapp,
+            localizacao,
+            descricao,
+            btnEditar,
+            btnSalvar,
+            btnExcluir
+          );
+          lista.appendChild(div);
+        });
+      } else {
+        window.location.href = "login.html";
+      }
+    });
+
+    function criarInput(valor) {
+      const input = document.createElement("input");
+      input.type = "text";
+      input.value = valor;
+      return input;
+    }
+
+    function criarTextarea(valor) {
+      const textarea = document.createElement("textarea");
+      textarea.rows = 4;
+      textarea.value = valor;
+      return textarea;
+    }
+  </script>
+</body>
+</html>

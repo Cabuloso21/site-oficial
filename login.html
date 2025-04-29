@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+ body {
+ margin: 0px;
+font-family: Roboto, sans-serif;
+}
+ 
+header {
+  background: #4CAF50;
+  padding: 15px;
+ border-bottom: 1px solid #ccc;
+ 
+}
+
+.logo {
+    text-align: absolute;
+    color: #f2f2f2;
+    font-size: 24px;
+    font-weight: bold;
+ margin-left: 0px;
+}
+
+   
+
+    .titulo {
+    text-align: center;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+margin-bottom: 20px;
+margin-top: 35px;
+
+}
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 82.50%;
+      padding: 15px;
+      margin-left: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-top: 10px;
+}
+    
+ label {
+color: black;
+margin-left: 15px;   
+font-weight: bold;
+}
+
+.btn {
+      width: 40%;
+      padding: 15px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+     margin-left: 30%;
+    margin-bottom: 50px;
+ font-size: 15px;
+  font-weight: bold;
+
+ }
+
+    .btn:hover {
+      background-color: #45a049;
+    }
+
+
+
+    .error-message {
+      color: red;
+      text-align: center;
+    }
+
+    .info-message {
+      color: green;
+      text-align: center;
+    }
+  
+ p {
+ font-size: 13px;
+ margin-left: 20px;
+
+}
+
+
+
+footer {
+ background: #999;
+ padding: 20px;
+ text-align: center;
+ color: #fff; 
+ margin-top: 50px;
+}
+
+ footer .brand p {
+ margin-top: 20px;
+ font-size: 14px;
+  color: lime;
+}
+
+ footer a {
+ color: lime;
+ text-decoration: none;
+ font-weight: bold;
+ transition: color 0.3s ease;
+ 
+}
+
+ footer a:hover {
+ color: #f0c040; 
+}
+
+ footer a:visited {
+ color: #ccc; 
+}
+
+
+</style>
+</head>
+<body>
+ 
+ <header>
+ <div class="logo">Lopixe</div>
+ </header>
+
+
+ <div class="titulo">Fazer login</div>
+  
+  <form id="formLogin">
+    <div class="input-group">
+      <label for="email">E-mail:</label>
+      <input type="email" id="email" required />
+    </div>
+    <div class="input-group">
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" required />
+    </div>
+    
+    <button type="submit" class="btn">Entrar</button>
+  </form>
+ 
+ <p><a href="recuperar-senha.html">Esqueceu sua senha?</a></p>
+  
+  <div class="error-message" id="mensagemErro"></div>
+  
+  
+ <footer>
+ <div class="brand">
+ <p><a href="privacidade.html" target="_blank">Política de Privacidade</a> | 
+ <a href="quem-somos.html" target="_blank">Quem Somos?</a></p>
+ <p>&copy; 2024° - Lopixe / todos os direitos reservados.</p>
+ </div>
+ </footer>
+
+
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCqkWODpY54YGrvqPVMABK_k_ZJLo1KXMA",
+      authDomain: "teste-cfe69.firebaseapp.com",
+      projectId: "teste-cfe69",
+      storageBucket: "teste-cfe69.appspot.com",
+      messagingSenderId: "646579509123",
+      appId: "1:646579509123:web:dd23b863dd8c54bca308b6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Função de login
+    document.getElementById("formLogin").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const senha = document.getElementById("senha").value;
+      const mensagemErro = document.getElementById("mensagemErro");
+      mensagemErro.textContent = "";  // Limpa a mensagem de erro antes de tentar
+
+      try {
+        // Tentando fazer login com o e-mail e senha fornecidos
+        const usuario = await signInWithEmailAndPassword(auth, email, senha);
+
+        // Verificando se o e-mail do usuário foi verificado
+        if (!usuario.user.emailVerified) {
+          throw new Error("Por favor, verifique seu e-mail antes de acessar.");
+        }
+
+        // Se o e-mail estiver verificado, redireciona para a página principal protegida
+        window.location.href = "anúncios1.html";
+      } catch (error) {
+        let erroMensagem = "Erro ao fazer login: " + error.message;
+
+        // Exibe a mensagem de erro personalizada
+        mensagemErro.textContent = erroMensagem;
+      }
+    });
+  </script>
+</body>
+</html>
